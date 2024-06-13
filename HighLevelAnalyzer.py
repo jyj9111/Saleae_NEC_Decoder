@@ -36,7 +36,7 @@ class Hla(HighLevelAnalyzer):
             self.first_frame_start = frame.start_time
         this_frame_size = int(float(frame.end_time - frame.start_time) * 10e3)
         frame_label = ""
-        if 133<this_frame_size<137:
+        if 40<this_frame_size<60:
             frame_label = "START FRAME"
         #If nothing is happening then ignore everything and wipe it out
         elif this_frame_size > 150:
