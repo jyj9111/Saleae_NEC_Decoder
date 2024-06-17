@@ -8,6 +8,7 @@ from saleae.analyzers import HighLevelAnalyzer, AnalyzerFrame, StringSetting, Nu
 class Hla(HighLevelAnalyzer):
 
     output_format = ChoicesSetting(choices=('Decimal', 'Hexadecimal'))
+    bit_order = ChoicesSetting(choices=('LSB', 'MSB'))
     # An optional list of types this analyzer produces, providing a way to customize the way frames are displayed in Logic 2.
     result_types = {
         'mytype': {
