@@ -9,6 +9,7 @@ class Hla(HighLevelAnalyzer):
 
     output_format = ChoicesSetting(choices=('Decimal', 'Hexadecimal'))
     bit_order = ChoicesSetting(choices=('LSB', 'MSB'))
+    bit_reverse = ChoicesSetting(choices=('True', 'False'))
     # An optional list of types this analyzer produces, providing a way to customize the way frames are displayed in Logic 2.
     result_types = {
         'mytype': {
@@ -58,15 +59,25 @@ class Hla(HighLevelAnalyzer):
             #This must be a normal bit, build up the byte.
             if self.buildup_start_time is None:
                 self.buildup_start_time = frame.start_time
-            if 9<this_frame_size<13:
-                interpreted_bit = 0
-            if 20<this_frame_size<24:
-                interpreted_bit = 1
+                
+            # Bit Reverse or Nonreverse
+            if self.bit_reverse == 'True':
+                if 9<this_frame_size<13:
+                    interpreted_bit = 1
+                if 20<this_frame_size<24:
+                    interpreted_bit = 0
+            else:
+                if 9<this_frame_size<13:
+                    interpreted_bit = 0
+                if 20<this_frame_size<24:
+                    interpreted_bit = 1
             self.byte_buildup.append(interpreted_bit)
+            
             if len(self.byte_buildup) == 8:
                 print(self.byte_buildup)
                 #Reverse it: LSB first.
-                #self.byte_buildup = reversed(self.byte_buildup)
+                if self.bit_order == 'LSB':
+                    self.byte_buildup = reversed(self.byte_buildup)
                 #byte is built, flush it
                 byte_value = 0
                 for i in self.byte_buildup:
