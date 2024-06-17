@@ -65,7 +65,7 @@ class Hla(HighLevelAnalyzer):
             if len(self.byte_buildup) == 8:
                 print(self.byte_buildup)
                 #Reverse it: LSB first.
-                self.byte_buildup = reversed(self.byte_buildup)
+                #self.byte_buildup = reversed(self.byte_buildup)
                 #byte is built, flush it
                 byte_value = 0
                 for i in self.byte_buildup:
